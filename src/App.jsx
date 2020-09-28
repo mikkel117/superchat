@@ -4,6 +4,7 @@ import './App.css';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
+import 'firebase/analytics';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
@@ -21,13 +22,15 @@ firebase.initializeApp({
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
+const analytics = firebase.analytics();
 
 function App() {
   const [user] = useAuthState(auth);
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header>
+        <h1>⚛️🔥💬</h1>
         <SignOut />
       </header>
 
@@ -96,7 +99,9 @@ function ChatRoom() {
           value={formValue}
           onChange={(e) => setFormValue(e.target.value)}
         />
-        <button>send</button>
+        <button type="submit" disabled={!formValue}>
+          🕊️
+        </button>
       </form>
     </>
   );
@@ -109,7 +114,7 @@ function ChatMessage(props) {
 
   return (
     <div className={`message ${messageClass}`}>
-      <img src={photoURL} />
+<img src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} />
       <p>{text}</p>
     </div>
   );
